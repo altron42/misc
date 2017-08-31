@@ -3,7 +3,9 @@
 #include <VirtualWire.h>
 
 LSM303 compass;
-char report[VW_MAX_MESSAGE_LEN];
+
+char reportM[VW_MAX_MESSAGE_LEN];
+char reportA[VW_MAX_MESSAGE_LEN];
 
 void setup()
 {
@@ -32,8 +34,11 @@ void loop()
     compass.m.x, compass.m.y, compass.m.z);
   */
 
-  snprintf(report, sizeof(report), "%d %d %d ",
+  snprintf(reportM, sizeof(reportM), "M:%d %d %d",
     compass.m.x, compass.m.y, compass.m.z);
+    
+  snprintf(reportA, sizeof(reportA), "A:%d %d %d",
+    compass.a.x, compass.a.y, compass.a.z);
 
   /*
   int numero;
@@ -43,5 +48,6 @@ void loop()
   Serial.print(" - Caracteres : ");
   Serial.println(numero);
   */
-  send(report);
+  send(reportM);
+  send(reportA);
 }
