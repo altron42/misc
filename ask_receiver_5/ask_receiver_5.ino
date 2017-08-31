@@ -1,7 +1,7 @@
 #include <SD.h>
 #include <VirtualWire.h>
 
-#define Arquivo "imculog0.txt"
+#define Arquivo "IMCU001.log"
 
 File arquivoTXT;
 
@@ -13,16 +13,23 @@ void getGyro(){
   uint8_t msgLength = VW_MAX_MESSAGE_LEN; 
   if (vw_get_message(message, &msgLength)){ // Non-blocking
     // digitalWrite(LED_BUILTIN, HIGH);
+    
     Serial.print(".");
     //Serial.write(message, msgLength);
     //Serial.println();
+    
     //sscanf (message,"%d %d %d",&gyroX,&gyroY,&gyroZ);
+    
     arquivoTXT.write(message, msgLength);
     arquivoTXT.println();
+    
     if (counter == 255) {
       arquivoTXT.flush();
       Serial.println("Flush");
     }
+    
+    counter++;
+    
     // digitalWrite(LED_BUILTIN, LOW);
   }
 }
@@ -52,5 +59,4 @@ void setup(void) {
 
 void loop(void) {
   getGyro();
-  counter++;
 }
